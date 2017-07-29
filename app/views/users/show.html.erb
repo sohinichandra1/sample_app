@@ -1,0 +1,25 @@
+<p>Hello <%= @user.name %></p>
+<%= link_to "Share Location", new_user_place_path(@user) %>
+
+<% @user.places.each do |place| %>
+  <p>Address: <%= place.address %></p>
+  <p>Longitude: <%= place.longitude %></p>
+  <p>Latitude: <%= place.latitude %></p>
+  <%= image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{place.latitude},#{place.longitude}&markers=#{place.latitude},#{place.longitude}&zoom=7&size=640x400&key=AIzaSyA4BHW3txEdqfxzdTlPwaHsYRSZbfeIcd8",class: 'img-fluid img-rounded', alt: "#{place.street_address} on the map"%>
+<% end %>
+
+<table class="table">
+  <thead>
+    <tr>
+	    <th>Name</th>
+	    <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @friends.each do |friend| %>
+    <tr>
+	    <td><%= link_to friend.name %></td>
+	  </tr>
+    <% end %>
+  </tbody>
+</table>

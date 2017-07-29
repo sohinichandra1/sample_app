@@ -1,0 +1,17 @@
+<h1>Users</h1>
+<table class="table">
+  <thead>
+    <tr>
+	    <th>Name</th>
+	    <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr>
+	    <td><%= link_to user.name, user_path(user) %></td>
+      <td><%= link_to "Edit", edit_user_path(user) if user == current_user %></td>
+	  </tr>
+    <% end %>
+  </tbody>
+</table>
