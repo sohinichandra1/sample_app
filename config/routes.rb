@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: "registrations" }
+  devise_for :users, controllers: { registrations: "registrations", sessions: "sessions" }
   root 'home#landing'
 
   resources :users do
+    get :public_profile, on: :member
     resources :places
   end
 

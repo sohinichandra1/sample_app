@@ -15,3 +15,29 @@
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+#map-for-public {
+height: 400px;
+width: 100%;
+margin-bottom: 30px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.bg-notice {
+  background-color: #d9edf7;
+}
+
+.bg-alert {
+  background-color: #f2dede;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
+}

@@ -1,0 +1,15 @@
+<% if @user.public_shared_places.present? %>
+<p class="text-bold">Location Shared Publicly:</p>
+<ul>
+  <% @user.public_shared_places.each do |place| %>
+  <li><strong><%= place.address %></strong></li>
+  <% end %>
+</ul>
+ <div id="map-for-public"></div>
+<% else %>
+<p>No Location Has been shared publicly by this user.</p>
+<% end %>
+<script>
+  var publicPlaces = '<%= @public_places.html_safe  %>';
+  var currentUserId = null;
+</script

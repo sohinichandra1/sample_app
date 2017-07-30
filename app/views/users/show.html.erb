@@ -1,25 +1,55 @@
-<p>Hello <%= @user.name %></p>
-<%= link_to "Share Location", new_user_place_path(@user) %>
-
-<% @user.shared_places.each do |shared_place| %>
-  <p>Address: <%= shared_place.place.address %></p>
-  <p>Longitude: <%= shared_place.place.longitude %></p>
-  <p>Latitude: <%= shared_place.place.latitude %></p>
-  <%= image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{shared_place.place.latitude},#{shared_place.place.longitude}&markers=#{shared_place.place.latitude},#{shared_place.place.longitude}&zoom=2&size=640x400&key=AIzaSyA4BHW3txEdqfxzdTlPwaHsYRSZbfeIcd8",class: 'img-fluid img-rounded', alt: "#{shared_place.place.street_address} on the map"%>
+<h4><%= @user.name %>'s Profile</h4>
+<%= link_to "Share Location", new_user_place_path(@user), class: "btn btn-primary pull-right" if @user == current_user %>
+<% if @shared_places_data.present? %>
+<div id="public">
+  <% if @user.public_shared_places.present? %>
+    <p class="text-bold">Location Shared Publicly:</p>
+      <ul>
+        <% @user.public_shared_places.each do |place| %>
+          <li><strong><%= place.address %></strong></li>
+        <% end %>
+      </ul>
+  <% end %>
+  <% if @user.grouped_shared_places_for_friends.present? %>
+    <p class="text-bold">Location Shared With Friend:</p>
+    <ul>
+      <% @user.grouped_shared_places_for_friends.each do |address, shared_places| %>
+        <li><strong><%= address %> </strong>is shared with <%= shared_places.collect(&:friend_name).join(", ") %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <% if @user.places_shared_with_user.present? %>
+    <p class="text-bold">Location Shared With <%= name(@user) %>:</p>
+    <ul>
+      <% @user.grouped_places_shared_with_user.each do |address, shared_places| %>
+        <li><strong><%= address %> </strong>is shared with <%= name(@user) %>.</li>
+      <% end %>
+    </ul>
+  <% end %>
+  <div id="map-for-public"></div>
+</div>
 <% end %>
 
+<% if @friends.present? && current_user == @user %>
 <table class="table">
   <thead>
     <tr>
-	    <th>Name</th>
-	    <th>Action</th>
+	    <th>Friend</th>
+	    <th class="text-right">Action</th>
     </tr>
   </thead>
   <tbody>
     <% @friends.each do |friend| %>
     <tr>
-	    <td><%= link_to friend.name %></td>
+	    <td><%= friend.name %></td>
+      <td class="text-right"><%= link_to "Show Profile",  public_profile_user_path(friend.username), class: "btn" %></td>
 	  </tr>
     <% end %>
   </tbody>
 </table>
+<% end %>
+
+<script>
+  var publicPlaces = '<%= @shared_places_data.html_safe  %>';
+  var currentUserId = '<%= raw current_user.id %>';
+</script
