@@ -1,4 +1,4 @@
-<h2>Add Place to Share</h2>
+<h2>Share Location</h2>
 
 <%= form_for @place, url: user_places_path(@user) do |f| %>
   <div class="form-group">
@@ -19,6 +19,22 @@
   <div class="field form-group">
     <%= f.label :zip_code %><br />
     <%= f.text_field :zip_code, class: "form-control" %>
+  </div>
+
+  <label>Share With</label>
+  <div class="radio">
+    <label><%= radio_button_tag "share_via", "all" %>Public</label>
+  </div>
+  <div class="radio">
+    <label><%= radio_button_tag "share_via", "friend" %>Friends</label>
+  </div>
+
+  <div id="friend-list">
+    <label>Friends</label>
+    <%#= f.fields_for :shared_places do |obs| %>
+      <%#= obs.select :user_id, @user.friends.collect{|c| [c.name, c.id]}, {}, {multiple: true} %>
+    <%# end %>
+    <%= select_tag :friend_ids, options_from_collection_for_select(@user.friends, :id, :name), multiple: true %>
   </div>
 
   <div class="actions">

@@ -6,8 +6,7 @@ class User < ActiveRecord::Base
   has_many :friendships
   has_many :friends, through: :friendships, source: :friend
 
-  has_many :user_places
-  has_many :places, through: :user_places
+  has_many :shared_places
   # has_many :public_places, through: :user_places, where: { public: true }
   # has_many :places_with_friend, through: :user_places
 

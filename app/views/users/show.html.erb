@@ -1,11 +1,11 @@
 <p>Hello <%= @user.name %></p>
 <%= link_to "Share Location", new_user_place_path(@user) %>
 
-<% @user.places.each do |place| %>
-  <p>Address: <%= place.address %></p>
-  <p>Longitude: <%= place.longitude %></p>
-  <p>Latitude: <%= place.latitude %></p>
-  <%= image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{place.latitude},#{place.longitude}&markers=#{place.latitude},#{place.longitude}&zoom=7&size=640x400&key=AIzaSyA4BHW3txEdqfxzdTlPwaHsYRSZbfeIcd8",class: 'img-fluid img-rounded', alt: "#{place.street_address} on the map"%>
+<% @user.shared_places.each do |shared_place| %>
+  <p>Address: <%= shared_place.place.address %></p>
+  <p>Longitude: <%= shared_place.place.longitude %></p>
+  <p>Latitude: <%= shared_place.place.latitude %></p>
+  <%= image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{shared_place.place.latitude},#{shared_place.place.longitude}&markers=#{shared_place.place.latitude},#{shared_place.place.longitude}&zoom=2&size=640x400&key=AIzaSyA4BHW3txEdqfxzdTlPwaHsYRSZbfeIcd8",class: 'img-fluid img-rounded', alt: "#{shared_place.place.street_address} on the map"%>
 <% end %>
 
 <table class="table">

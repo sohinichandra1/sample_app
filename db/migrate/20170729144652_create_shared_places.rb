@@ -1,6 +1,6 @@
-class CreateUserPlaces < ActiveRecord::Migration
+class CreateSharedPlaces < ActiveRecord::Migration
   def change
-    create_table :user_places do |t|
+    create_table :shared_places do |t|
       t.integer :user_id
       t.integer :friend_id
       t.integer :place_id
@@ -9,7 +9,7 @@ class CreateUserPlaces < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index :user_places, :user_id
-    add_index :user_places, :place_id
+    add_foreign_key :shared_places, :users
+    add_foreign_key :shared_places, :places
   end
 end

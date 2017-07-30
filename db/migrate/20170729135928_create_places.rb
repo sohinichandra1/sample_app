@@ -7,7 +7,10 @@ class CreatePlaces < ActiveRecord::Migration
       t.string :state
       t.float :latitude
       t.float :longitude
+      t.integer :user_id, null: false
       t.timestamps null: false
     end
+
+    add_foreign_key :places, :users
   end
 end

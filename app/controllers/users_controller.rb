@@ -8,7 +8,8 @@ class UsersController < ApplicationController
     @friends = @user.friends
   end
 
-  def add_location
+  def get_friends
     @user = User.find params[:id]
+    @user.friends
   end
 end
