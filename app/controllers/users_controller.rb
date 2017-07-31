@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.includes(:friends, user_shared_places: [:shared_place, :friend]).find params[:id]
+    @user = User.includes(:friends, user_shared_places: [:shared_place, :friend]).find(current_user.id)
     @friends = @user.friends
     @shared_places_data = (@user.user_shared_places + @user.places_shared_with_user).to_json(only: [:public, :friend_id], methods: [:latitude, :longitude, :address])
   end
@@ -14,6 +14,5 @@ class UsersController < ApplicationController
   def public_profile
     @user = User.where(username: params[:id]).first
     @public_places = @user.public_shared_places.to_json(only: [:latitude, :longitude, :address])
-    #binding.pry
   end
 end

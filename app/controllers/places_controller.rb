@@ -1,19 +1,23 @@
 class PlacesController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :find_user
 
   def new
-    @place = @user.shared_places.build
+    @place = current_user.shared_places.build
   end
 
   def create
-    @place = @user.shared_places.build(place_params)
+    @place = current_user.shared_places.build(place_params)
+
+    if params[:share_via] == "friend" && params[:friend_ids].blank?
+      flash.now[:warning] = "Please select friends"
+      render :new and return
+    end
 
     if @place.valid?
-      @place.build_share_locations(params, @user)
+      @place.build_share_locations(params, current_user)
       @place.save
       flash[:success] = "Location added successfully"
-      redirect_to user_path(@user)
+      redirect_to user_path(current_user)
     else
       flash.now[:warning] = @place.errors.full_messages.to_sentence
       render :new
@@ -21,10 +25,6 @@ class PlacesController < ApplicationController
   end
 
   private
-
-  def find_user
-    @user = User.find params[:user_id]
-  end
 
   def place_params
     params.require(:shared_place).permit(:street_address, :zip_code, :state, :country)

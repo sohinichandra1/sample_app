@@ -1,19 +1,19 @@
 <h2>Share Location</h2>
 
-<%= form_for @place, url: user_places_path(@user) do |f| %>
+<%= form_for @place, url: places_path do |f| %>
   <div class="form-group">
     <%= f.label :country %>
-    <%= f.text_field :country, class: "form-control country-dropdown" %>
+    <%= f.text_field :country, class: "form-control country-dropdown", required: true %>
   </div>
 
   <div class="form-group">
     <%= f.label :state %>
-    <%= f.text_field :state, class: "form-control country-dropdown"  %>
+    <%= f.text_field :state, class: "form-control country-dropdown", required: true  %>
    </div>
 
   <div class="field form-group">
     <%= f.label :street_address %><br />
-    <%= f.text_field :street_address, class: "form-control" %>
+    <%= f.text_field :street_address, class: "form-control", required: true %>
   </div>
 
   <div class="field form-group">
@@ -23,16 +23,19 @@
 
   <label>Share With</label>
   <div class="radio">
-    <label><%= radio_button_tag "share_via", "all" %>Public</label>
+    <label><%= radio_button_tag "share_via", "all", checked: true %>Public</label>
   </div>
+
+  <% if current_user.friends.present? %>
   <div class="radio">
     <label><%= radio_button_tag "share_via", "friend" %>Friends</label>
   </div>
 
   <div id="friend-list" class="form-group hide">
     <label>Select Friends</label>
-    <%= select_tag :friend_ids, options_from_collection_for_select(@user.friends, :id, :name), multiple: true, class: "form-control" %>
+    <%= select_tag :friend_ids, options_from_collection_for_select(current_user.friends, :id, :name), multiple: true, class: "form-control" %>
   </div>
+  <% end %>
 
   <div class="actions">
     <%= f.submit "Submit", class: "btn btn-primary" %>
